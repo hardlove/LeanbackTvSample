@@ -325,6 +325,7 @@ public class MainActivity extends BaseActivity implements ContentFragment.OnFrag
         mClOpenVip.setOnClickListener(this);
         mTvAd.setOnClickListener(this);
 
+        //给以下View添加按键监听
         mClSearch.setOnKeyListener(this);
         mClHistory.setOnKeyListener(this);
         mClLogin.setOnKeyListener(this);
@@ -375,6 +376,7 @@ public class MainActivity extends BaseActivity implements ContentFragment.OnFrag
         });
     }
 
+    /*处理最顶部title group的显示隐藏*/
     private void handleTitleVisible(boolean isShow) {
         if (isShow) {
             if (mGroup.getVisibility() != View.VISIBLE) {
