@@ -171,11 +171,14 @@ public class MainActivity extends BaseActivity implements ContentFragment.OnFrag
             MainActivity activity = mActivity.get();
             if (activity != null) {
                 switch (msg.what) {
+                    //接收Title数据
                     case MSG_NOTIFY_TITLE:
                         @SuppressWarnings("unchecked")
                         List<Title.DataBean> dataBeans = (List<Title.DataBean>) msg.obj;
+                        //获取ArrayObjectAdapter对象，即mArrayObjectAdapter
                         ArrayObjectAdapter adapter = activity.getArrayObjectAdapter();
                         if (adapter != null) {
+                            //添加获取到的所有数据源
                             adapter.addAll(0, dataBeans);
                             activity.initViewPager(dataBeans);
                             HorizontalGridView horizontalGridView = activity.getHorizontalGridView();
@@ -312,12 +315,14 @@ public class MainActivity extends BaseActivity implements ContentFragment.OnFrag
 
     private void initData() {
         if (mThread != null) {
+            //开启线程获取数据
             mThread.start();
         }
     }
 
     private void initListener() {
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalFocusChangeListener(this);
+        //给HorizontalGridView添加Item点击监听事件
         mHorizontalGridView.addOnChildViewHolderSelectedListener(onChildViewHolderSelectedListener);
         mClSearch.setOnClickListener(this);
         mClHistory.setOnClickListener(this);
@@ -335,12 +340,14 @@ public class MainActivity extends BaseActivity implements ContentFragment.OnFrag
     }
 
     private void initBroadCast() {
+        //注册网络变化监听
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
     }
 
+    /*是否是第一次*/
     private boolean isFirstIn = true;
 
     private void initViewPager(List<Title.DataBean> dataBeans) {
@@ -348,6 +355,7 @@ public class MainActivity extends BaseActivity implements ContentFragment.OnFrag
         ContentViewPagerAdapter viewPagerAdapter = new ContentViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.setData(dataBeans);
         mViewPager.setAdapter(viewPagerAdapter);
+        //给viewpager添加页面切换监听事件
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
